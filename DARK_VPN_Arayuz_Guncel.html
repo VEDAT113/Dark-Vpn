@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b10">
+<title>DARK VPN — Arayüz Prototipi</title>
+<style>
+:root{--bg:#07090e;--panel:#0d121b;--panel2:#101825;--line:#202c3d;--text:#edf5ff;--muted:#8795aa;--mint:#38f5c5;--blue:#6a8cff;--red:#ff6685;--radius:20px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#142b34 0,transparent 38%),radial-gradient(ellipse at -20% 70%,#11182c 0,transparent 40%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+.app{max-width:1120px;margin:auto;padding:26px 18px 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:25px}.brand{display:flex;gap:12px;align-items:center}.logo{width:48px;height:48px;border:1px solid #2b6c62;background:linear-gradient(145deg,#122b2b,#0b121b);border-radius:15px;display:grid;place-items:center;color:var(--mint);font-size:24px;box-shadow:0 0 25px #38f5c51a}.brand h1{font-size:21px;letter-spacing:2px;margin:0}.brand p{font-size:11px;letter-spacing:2px;color:var(--muted);margin:1px 0 0}.tag{border:1px solid #6b5730;background:#241d10;color:#ffd991;padding:6px 10px;border-radius:99px;font-size:11px;letter-spacing:1px;font-weight:800}
+.layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.8fr);gap:18px}.panel{background:linear-gradient(145deg,#101722f2,#0b1018f5);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 16px 50px #0003}.hero{text-align:center;min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center}.eyebrow{color:var(--mint);letter-spacing:2px;font-size:11px;font-weight:800}.power{margin:23px 0 20px;width:148px;height:148px;border-radius:50%;border:1px solid #2d6e63;background:radial-gradient(circle,#102e2a 0,#0c191d 62%,#0b1119 100%);color:var(--mint);font-size:45px;box-shadow:0 0 0 10px #38f5c509,0 0 55px #38f5c51b;transition:.25s}.power:hover{transform:scale(1.03);box-shadow:0 0 0 10px #38f5c50d,0 0 70px #38f5c52b}.power:disabled{opacity:.6;cursor:wait}.hero h2{font-size:25px;margin:0 0 5px}.hero .sub{max-width:390px;color:var(--muted);font-size:13px;margin:0}.status{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:7px 12px;border-radius:99px;border:1px solid var(--line);color:#b4c1d4;font-size:12px}.dot{width:7px;height:7px;border-radius:50%;background:#f4b94d;box-shadow:0 0 10px #f4b94d66}.status.connected{color:var(--mint);border-color:#24685b}.status.connected .dot{background:var(--mint);box-shadow:0 0 10px #38f5c5}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.stat{border:1px solid var(--line);background:#0a1018;border-radius:14px;padding:13px}.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{display:block;font-size:17px;margin-top:3px}.section-title{font-size:15px;margin:0 0 15px}.field{margin-bottom:15px}.field label{display:block;color:#aab7c9;font-size:12px;margin-bottom:7px}.field select,.field input{width:100%;background:#090e15;border:1px solid #263247;color:var(--text);padding:12px;border-radius:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.server{display:flex;align-items:center;gap:11px;padding:13px;border:1px solid var(--line);border-radius:14px;background:#0a1018;margin-top:10px}.flag{width:39px;height:39px;display:grid;place-items:center;background:#15202e;border-radius:12px;font-size:20px}.server-info{flex:1;min-width:0}.server-info b{display:block;font-size:13px}.server-info small{color:var(--muted);font-size:11px}.pill{color:var(--mint);font-size:11px;border:1px solid #24584e;border-radius:99px;padding:4px 7px}.notice{margin-top:18px;border:1px solid #66522c;background:#201b12;color:#e7d3a5;border-radius:13px;padding:12px;font-size:12px}.notice b{display:block;margin-bottom:3px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.tab{background:#0c121b;border:1px solid var(--line);color:#aab7c9;border-radius:11px;padding:9px 13px;font-size:12px}.tab.active{border-color:#2c7767;color:var(--mint);background:#10231f}.tab-content{display:none}.tab-content.active{display:block}.settings-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.settings-row:last-child{border:0}.settings-row small{display:block;color:var(--muted);font-size:12px}.switch{accent-color:var(--mint);width:18px;height:18px}.history-item{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;font-size:13px}.history-item:last-child{border:0}.history-item small{color:var(--muted)}footer{text-align:center;color:#67768d;font-size:11px;margin-top:24px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.hero{min-height:365px}.panel{padding:18px}.app{padding:19px 13px 36px}.brand h1{font-size:18px}.stats{gap:7px}.stat{padding:10px}.stat strong{font-size:15px}}
+
+:root { --bg:#070707; --panel:#111111; --panel2:#181818; --text:#f5f5f5; --muted:#a8a8a8; --line:#303030; --accent:#ffffff; --accentText:#050505; }
+body.light-theme { --bg:#f5f5f5; --panel:#ffffff; --panel2:#eeeeee; --text:#101010; --muted:#555555; --line:#d2d2d2; --accent:#111111; --accentText:#ffffff; }
+body { background:var(--bg) !important; color:var(--text) !important; transition:background .2s ease,color .2s ease; }
+.card, .panel, .stat, .settings-row, .server-card, .metric, .hero, .topbar, .nav, .settings-card, .server-item { background-color:var(--panel) !important; border-color:var(--line) !important; color:var(--text) !important; }
+p, small, .muted, .sub, .hint, .description { color:var(--muted); }
+button, .btn, select, input { border-color:var(--line); }
+.theme-toggle { display:flex; gap:10px; align-items:center; }
+.theme-toggle button { border:1px solid var(--line); border-radius:10px; padding:9px 12px; background:var(--panel2); color:var(--text); cursor:pointer; }
+.theme-toggle button.active { background:var(--accent); color:var(--accentText); }
+.power-shield { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
+.power-shield svg { width:42px; height:42px; }
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="logo" aria-hidden="true">◈</div><div><h1>DARK VPN</h1><p>PRIVATE CONNECTION • YOUR CONTROL</p></div></div>
+    <span class="tag">UI DEMO</span>
+  </header>
+  <div class="layout">
+    <main>
+      <section class="panel hero">
+        <div class="eyebrow">GÜVENLİK PANELİ</div>
+        <button id="power" class="power" aria-label="Demo durumunu değiştir" title="Demo durumunu değiştir"><span class="power-shield" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg><span>⏻</span></span></button>
+        <h2 id="heroTitle">Bağlantı kurulmadı</h2>
+        <p class="sub" id="heroSub">Yerel VPN bileşeni bekleniyor. Bu HTML tek başına gerçek tünel kurmaz.</p>
+        <div class="status" id="status"><span class="dot"></span><span id="statusText">Gerçek bağlantı yok</span></div>
+        <div class="stats" style="width:100%">
+          <div class="stat"><small>Gecikme</small><strong id="ping">— ms</strong></div>
+          <div class="stat"><small>Bağlantı süresi</small><strong id="duration">00:00:00</strong></div>
+          <div class="stat"><small>IP durumu</small><strong id="ip">Kontrol yok</strong></div>
+        </div>
+      </section>
+      <nav class="tabs" aria-label="Bölümler">
+        <button class="tab active" data-tab="servers">Sunucular</button>
+        <button class="tab" data-tab="settings">Ayarlar</button>
+        <button class="tab" data-tab="history">Geçmiş</button>
+        <button class="tab" data-tab="about">Hakkında</button>
+      </nav>
+      <section class="panel tab-content active" id="servers">
+        <h3 class="section-title">Sunucu konumu</h3>
+        <div class="field"><label for="country">Demo konum seçimi</label>
+          <select id="country"><option value="nl">🇳🇱 Hollanda — Amsterdam</option><option value="ch">🇨🇭 İsviçre — Zürich</option><option value="de">🇩🇪 Almanya — Frankfurt</option><option value="us">🇺🇸 ABD — New York</option><option value="jp">🇯🇵 Japonya — Tokyo</option></select>
+        </div>
+        <div class="server"><div class="flag" id="flag">🇳🇱</div><div class="server-info"><b id="serverName">Hollanda · Amsterdam</b><small>Bağlantı için yerel VPN bileşeni ve desteklenen Proton yapılandırması gerekir</small></div><span class="pill">SEÇİLDİ</span></div>
+        <div class="notice"><b>Gerçek bağlantı hakkında</b>Bu seçim yalnızca arayüzdeki konumu değiştirir. Proton sunucusuna bağlanmaz, IP adresini değiştirmez ve trafiğini şifrelemez.</div>
+      </section>
+      <section class="panel tab-content" id="settings">
+        <h3 class="section-title">Tercihler</h3>
+        <div class="settings-row"><div><b>Neon animasyonları</b><small>Arayüz parıltılarını etkinleştir</small></div><input class="switch" type="checkbox" checked id="glow"></div>
+        <div class="settings-row"><div><b>Bağlantı öncesi uyarı</b><small>Demo ile gerçek bağlantıyı ayır</small></div><input class="switch" type="checkbox" checked disabled aria-label="Güvenlik uyarısı her zaman açık"></div>
+        <div class="settings-row"><div><b>Arayüz dili</b><small>Görüntülenen dil</small></div><select id="language" style="background:#090e15;color:#edf5ff;border:1px solid #263247;border-radius:9px;padding:7px"><option>Türkçe</option><option>English</option></select></div>
+        <div class="notice"><b>Güvenlik notu</b>VPN yapılandırma dosyanı, özel anahtarını veya Proton giriş bilgilerini bu HTML dosyasına koyma.</div>
+      </section>
+      <section class="panel tab-content" id="history">
+        <h3 class="section-title">Oturum geçmişi</h3><div id="historyList"><div class="history-item"><span>Prototip başlatıldı</span><small>Şimdi</small></div></div>
+        <p style="color:var(--muted);font-size:12px;margin:14px 0 0">Bu liste yalnızca bu sayfanın açık olduğu oturumu gösterir; gerçek VPN bağlantı kaydı değildir.</p>
+      </section>
+      <section class="panel tab-content" id="about">
+        <h3 class="section-title">DARK VPN hakkında</h3>
+        <p style="color:var(--muted);font-size:13px">DARK VPN, kişisel marka için hazırlanmış bir arayüz prototipidir. Proton VPN ayrı bir hizmettir; bu tasarım Proton tarafından onaylanmış veya ona bağlı bir uygulama değildir.</p>
+        <div class="settings-row"><span>Arayüz sürümü</span><b>0.1.0</b></div>
+        <div class="settings-row"><span>Gerçek tünel</span><b style="color:#ffcc80">Bağlı değil</b></div>
+        <div class="settings-row"><span>Desteklenen protokole yönelik plan</span><b>WireGuard</b></div>
+      </section>
+    </main>
+    <aside class="panel">
+      <h3 class="section-title">Bağlantı kontrolü</h3>
+      
+<div class="settings-row">
+  <div><b>Arayüz teması</b><small>Siyah veya beyaz görünüm seç</small></div>
+  <div class="theme-toggle" role="group" aria-label="Arayüz teması">
+    <button type="button" id="themeDark" class="active" aria-pressed="true">Siyah</button>
+    <button type="button" id="themeLight" aria-pressed="false">Beyaz</button>
+  </div>
+</div>
+
+<div class="settings-row"><div><b>VPN entegrasyonu</b><small>Android WebView / Windows WebView2 yerel köprüsü</small></div><span class="pill">KÖPRÜYE HAZIR</span></div>
+      <div class="settings-row"><div><b>Protokol</b><small>Sağlayıcı yapılandırmasına bağlı</small></div><span>WireGuard</span></div>
+      <div class="settings-row"><div><b>Tünel durumu</b><small>Bu sayfa kontrol edemez</small></div><span style="color:#ffcc80">Bilinmiyor</span></div>
+      <div class="notice"><b>Nasıl gerçek bağlantı eklenir?</b>Windows için yerel bir masaüstü köprüsü; Android için VPNService kullanan yerel bir uygulama gerekir. HTML, işletim sisteminin VPN izinlerini kendi başına alamaz.</div>
+      <p style="color:var(--muted);font-size:12px;margin:17px 0 0">İpucu: Gerçek Proton VPN bağlantısını ayrıca Proton'un resmi istemcisiyle kurabilir, bu arayüzü şimdilik kontrol paneli tasarımı olarak kullanabilirsin.</p>
+    </aside>
+  </div>
+  <footer><strong>ARAYÜZ ÇALIŞIYOR</strong> • DARK VPN • Yerel bileşen olmadan gerçek VPN bağlantısı sağlamaz</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const labels={nl:{flag:"🇳🇱",name:"Hollanda · Amsterdam"},ch:{flag:"🇨🇭",name:"İsviçre · Zürich"},de:{flag:"🇩🇪",name:"Almanya · Frankfurt"},us:{flag:"🇺🇸",name:"ABD · New York"},jp:{flag:"🇯🇵",name:"Japonya · Tokyo"}};
+$("country").addEventListener("change",()=>{const v=labels[$("country").value];$("flag").textContent=v.flag;$("serverName").textContent=v.name;log("Arayüz konumu seçildi: "+v.name)});
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===btn));document.querySelectorAll(".tab-content").forEach(x=>x.classList.toggle("active",x.id===btn.dataset.tab))}));
+// Native bridge contract: the Android/Windows host must implement these methods.
+// HTML deliberately never reports "connected" unless the native host confirms it.
+const vpnState = { connected: false, pending: false };
+function setVpnUi(connected, message) {
+  vpnState.connected = !!connected;
+  vpnState.pending = false;
+  $("power").disabled = false;
+  $("heroTitle").textContent = connected ? "Bağlantı güvenli" : "Bağlantı kapalı";
+  $("heroSub").textContent = message || (connected ? "Yerel VPN bileşeni bağlantıyı doğruladı." : "Henüz gerçek VPN tüneli bağlı değil.");
+  $("statusText").textContent = connected ? "BAĞLI · YEREL BİLEŞEN ONAYLADI" : "BAĞLI DEĞİL";
+  $("status").classList.toggle("connected", !!connected);
+  $("power").setAttribute("aria-label", connected ? "VPN bağlantısını kes" : "VPN'e bağlan");
+}
+function sendNative(action) {
+  const payload = { app: "DARK_VPN", action, server: $("country").value, timestamp: Date.now() };
+  try {
+    // Android WebView: expose a narrowly scoped DarkVpnNative JS interface in the host app.
+    if (window.DarkVpnNative && typeof window.DarkVpnNative[action] === "function") {
+      window.DarkVpnNative[action](JSON.stringify(payload));
+      return true;
+    }
+    // Windows WebView2: host must validate messages and answer with vpn-status messages.
+    if (window.chrome && window.chrome.webview && typeof window.chrome.webview.postMessage === "function") {
+      window.chrome.webview.postMessage(payload);
+      return true;
+    }
+  } catch (err) {
+    console.error("DARK VPN native bridge error", err);
+  }
+  return false;
+}
+$("power").addEventListener("click", () => {
+  if (vpnState.pending) return;
+  const action = vpnState.connected ? "disconnect" : "connect";
+  if (!sendNative(action)) {
+    alert("Gerçek VPN bağlantısı için Android/Windows yerel bileşeni bağlı değil. Bu HTML tek başına sistem trafiğini VPN'e yönlendiremez. Proton VPN'in resmi uygulamasını kullan veya bu arayüzü yerel VPN bileşeniyle paketle.");
+    setVpnUi(false, "Yerel VPN bileşeni bulunamadı. Gerçek tünel başlatılmadı.");
+    return;
+  }
+  vpnState.pending = true;
+  $("power").disabled = true;
+  $("heroTitle").textContent = action === "connect" ? "Bağlantı isteği gönderildi" : "Kesme isteği gönderildi";
+  $("heroSub").textContent = "Durum, yerel VPN bileşeninin yanıtı gelince güncellenecek.";
+  $("statusText").textContent = "DURUM BEKLENİYOR";
+});
+// Native host should send: {type:"vpn-status", connected:true|false, message:"..."}.
+function handleNativeMessage(data) {
+  let msg = data;
+  if (typeof msg === "string") { try { msg = JSON.parse(msg); } catch (_) { return; } }
+  if (!msg || msg.type !== "vpn-status" || typeof msg.connected !== "boolean") return;
+  setVpnUi(msg.connected, msg.message);
+}
+window.addEventListener("message", event => handleNativeMessage(event.data));
+if (window.chrome && window.chrome.webview) {
+  window.chrome.webview.addEventListener("message", event => handleNativeMessage(event.data));
+}
+$("glow").addEventListener("change",e=>{document.querySelector(".power").style.boxShadow=e.target.checked?"0 0 0 10px #38f5c509,0 0 55px #38f5c51b":"none"});
+function log(msg){const el=document.createElement("div");el.className="history-item";const a=document.createElement("span"),b=document.createElement("small");a.textContent=msg;b.textContent=new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});el.append(a,b);$("historyList").prepend(el)}
+$("language").addEventListener("change",e=>{if(e.target.value==="English")alert("The interface is currently a Turkish prototype. English localization can be added in a future version.")});
+</script>
+<script>
+
+// Appearance selector: this reports that the interface is running, not that a VPN tunnel is connected.
+function setTheme(theme) {
+  const light = theme === "light";
+  document.body.classList.toggle("light-theme", light);
+  const darkBtn = document.getElementById("themeDark");
+  const lightBtn = document.getElementById("themeLight");
+  if (darkBtn && lightBtn) {
+    darkBtn.classList.toggle("active", !light);
+    lightBtn.classList.toggle("active", light);
+    darkBtn.setAttribute("aria-pressed", String(!light));
+    lightBtn.setAttribute("aria-pressed", String(light));
+  }
+  try { localStorage.setItem("darkVpnTheme", light ? "light" : "dark"); } catch (_) {}
+}
+document.getElementById("themeDark")?.addEventListener("click", () => setTheme("dark"));
+document.getElementById("themeLight")?.addEventListener("click", () => setTheme("light"));
+try { if (localStorage.getItem("darkVpnTheme") === "light") setTheme("light"); } catch (_) {}
+
+</script>
+</body>
+</html>
+<!--
+DARK VPN native integration contract:
+Android: host app may expose a narrowly scoped window.DarkVpnNative.connect(json)
+and window.DarkVpnNative.disconnect(json) via WebView.addJavascriptInterface.
+The host must validate all input and invoke Android VpnService only after user consent.
+Windows: WebView2 host receives {app:"DARK_VPN", action:"connect"|"disconnect", server:"..."}.
+Host responds to the page with {type:"vpn-status", connected:boolean, message:string}.
+Never put Proton credentials/private keys in this HTML. The native host must use provider-supported
+configuration and must report connection state only after the real tunnel confirms it.
+-->
